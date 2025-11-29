@@ -12,7 +12,8 @@ import { Label } from "../ui/label";
 import { toast } from "sonner";
 import { Plus, Trash2, Save, X, IndianRupee } from "lucide-react";
 
-const API_URL = "http://localhost:5000";
+const API_URL = process.env.REACT_APP_API_URL || "https://gd-7-0-a.onrender.com";
+
 
 export function FeriwalaManager() {
   const [feriwalaRecords, setFeriwalaRecords] = useState([]);
