@@ -18,7 +18,8 @@ import { toast } from "sonner";
 import { Calendar } from "lucide-react";
 import { formatDate } from "../../utils/dateFormat";
 
-const API_URL = "http://localhost:5000";
+const API_URL = process.env.REACT_APP_API_URL || "https://gd-7-0-a.onrender.com";
+
 
 export function LabourManager() {
   const company_id = "2f762c5e-5274-4a65-aa66-15a7642a1608";
