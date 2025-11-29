@@ -10,7 +10,8 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from ".
 import { toast } from "sonner";
 import { Plus, Save, Trash2 } from "lucide-react";
 
-const API_URL = "http://localhost:5000";
+const API_URL = process.env.REACT_APP_API_URL || "https://gd-7-0-a.onrender.com";
+
 
 export function MaalInManager() {
   const today = new Date().toISOString().split("T")[0];
