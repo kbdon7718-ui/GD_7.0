@@ -101,7 +101,7 @@ export function PartyManager() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/party/add", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/party/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
