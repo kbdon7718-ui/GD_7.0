@@ -178,7 +178,7 @@ router.get("/list-sales", async (req, res) => {
 
     const q = `
       SELECT *,
-      (COALESCE(bill_amount,0)+COALESCE(gst_amount,0)+COALESCE(freight,0)) AS total_invoice_amount
+      (COALESCE(original_amount,0)+COALESCE(gst_amount,0)+COALESCE(freight,0)) AS total_invoice_amount
       FROM maal_out
       WHERE ${where}
       ORDER BY date DESC, created_at DESC;
