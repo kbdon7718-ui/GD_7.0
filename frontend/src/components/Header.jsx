@@ -2,6 +2,7 @@ import { Bell, Search, Moon, Sun, LogOut, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
