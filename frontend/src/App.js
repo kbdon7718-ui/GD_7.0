@@ -1,153 +1,75 @@
-import { useState, useEffect } from "react";
-import { Header } from "./components/Header";
-import { Sidebar } from "./components/Sidebar";
-import { DashboardOverview } from "./components/DashboardOverview";
-import { DailyDataBook } from "./components/DailyDataBook";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Wallet,
+  Building2,
+  Users,
+  Recycle,
+  Handshake,
+  Factory,
+  BarChart3,
+  TrendingUp,
+  Truck,
+  Package
+} from "lucide-react";
+import { cn } from "./ui/utils";
 
-import TruckDriver from "./components/TruckDriver";
-import MaalIn from "./components/MaalIn";
+const menuItems = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { id: "daily-book", label: "Daily Data Book", icon: BookOpen },
+  { id: "rokadi", label: "Rokadi Update", icon: Wallet },
+  { id: "bank", label: "Bank Account", icon: Building2 },
+  { id: "labour", label: "Labour", icon: Users },
 
-import { RokadiUpdate } from "./components/RokadiUpdate";
-import { BankAccount } from "./components/BankAccount";
-import { FeriwalaSection } from "./components/FeriwalaSection";
-import { LabourSection } from "./components/LabourSection";
-import KabadiwalaSection from "./components/KabadiwalaSection";
-import { PartnershipAccount } from "./components/PartnershipAccount";
-import { BusinessReports } from "./components/BusinessReports";
-import { MillSection } from "./components/MillSection";
-import RatesUpdate from "./components/RatesUpdate";
-import { ManagerDashboard } from "./components/manager/ManagerDashboard";
+  { id: "feriwala", label: "Feriwala", icon: Recycle },
 
-import { Login } from "./components/Login";
-import { Toaster } from "./components/ui/sonner";
+  // Must match App.js routing
+  { id: "truck-driver", label: "Truck Driver", icon: Truck },
+  { id: "maal-in", label: "Maal In", icon: Package },
 
-import { AuthProvider, useAuth } from "./utils/authContext";
-import { DataProvider } from "./utils/dataContext";
+  { id: "kabadiwala", label: "Kabadiwala", icon: Recycle },
+  { id: "partnership", label: "Partnership", icon: Handshake },
+  { id: "rates-update", label: "Rates Update", icon: TrendingUp },
+  { id: "business-reports", label: "Business Reports", icon: BarChart3 },
+  { id: "mill", label: "Party / Mill", icon: Factory }
+];
 
-function AppContent() {
-  const { user, isAuthenticated } = useAuth();
-  const [activeSection, setActiveSection] = useState("dashboard");
-  const [darkMode, setDarkMode] = useState(false);
-
-  // sidebar drawer state
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    if (user?.role === "manager") {
-      setActiveSection("manager-dashboard");
-    } else if (user?.role === "owner") {
-      setActiveSection("dashboard");
-    }
-  }, [user]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark");
-  };
-
-  if (!isAuthenticated) {
-    return <Login />;
-  }
-
-  // owner routing system
-  const renderActiveSection = () => {
-    if (user?.role === "manager") {
-      return <ManagerDashboard />;
-    }
-
-    switch (activeSection) {
-      case "dashboard":
-        return <DashboardOverview />;
-      case "daily-book":
-        return <DailyDataBook />;
-      case "maal-in":
-        return <MaalIn />;
-      case "truck-driver":
-        return <TruckDriver />;
-      case "rokadi":
-        return <RokadiUpdate />;
-      case "bank":
-        return <BankAccount />;
-      case "labour":
-        return <LabourSection />;
-      case "feriwala":
-        return <FeriwalaSection />;
-      case "kabadiwala":
-        return <KabadiwalaSection />;
-      case "partnership":
-        return <PartnershipAccount />;
-      case "rates-update":
-        return <RatesUpdate />;
-      case "business-reports":
-        return <BusinessReports />;
-      case "mill":
-        return <MillSection />;
-      default:
-        return <DashboardOverview />;
-    }
-  };
-
+export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
   return (
-    <div className={`min-h-screen ${darkMode ? "dark" : ""}`}>
-      <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+    <aside className="relative w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full">
 
-        {/* Header */}
-        <Header
-          darkMode={darkMode}
-          toggleDarkMode={toggleDarkMode}
-          onMenuClick={() => setSidebarOpen(true)}
-        />
+      {/* ===== MOBILE CLOSE BUTTON ===== */}
+      <button
+        className="md:hidden absolute top-3 right-3 p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
+        onClick={closeSidebar}
+      >
+        ✕
+      </button>
 
-        <div className="flex flex-1 overflow-hidden">
-
-          {/* Sidebar for owner only */}
-          {user?.role === "owner" && (
-            <>
-              {/* BACKDROP (mobile only) */}
-              {sidebarOpen && (
-                <div
-                  className="fixed inset-0 bg-black/40 md:hidden z-30"
-                  onClick={() => setSidebarOpen(false)}
-                />
+      {/* ===== MENU ITEMS ===== */}
+      <nav className="p-4 space-y-1 mt-10 md:mt-0">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.id}
+              onClick={() => {
+                setActiveSection(item.id);
+                closeSidebar(); // Auto close on mobile
+              }}
+              className={cn(
+                "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left",
+                activeSection === item.id
+                  ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
               )}
-
-              {/* DRAWER SIDEBAR */}
-             <div
-  className={`fixed md:static top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow-lg
-  transition-transform duration-300
-  ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
->
-
-                <Sidebar
-                  activeSection={activeSection}
-                  setActiveSection={(s) => {
-                    setActiveSection(s);
-                    setSidebarOpen(false); // close drawer on mobile
-                  }}
-                     closeSidebar={() => setSidebarOpen(false)} 
-                />
-              </div>
-            </>
-          )}
-
-          {/* MAIN CONTENT */}
-          <main className="flex-1 overflow-y-auto p-4 sm:p-6">
-            {renderActiveSection()}
-          </main>
-        </div>
-      </div>
-
-      <Toaster />
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <AuthProvider>
-      <DataProvider>
-        <AppContent />
-      </DataProvider>
-    </AuthProvider>
+            >
+              <Icon className="w-5 h-5" />
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
+      </nav>
+    </aside>
   );
 }
