@@ -1,4 +1,5 @@
-import { Bell, Search, Moon, Sun, LogOut } from "lucide-react";
+import { Menu, Bell, Search, Moon, Sun, LogOut } from "lucide-react";
+
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -29,23 +30,30 @@ export function Header({ darkMode, toggleDarkMode }) {
   };
 
   return (
-   <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
-  <div className="flex flex-wrap items-center justify-between gap-4">
-    
-    {/* LEFT SIDE */}
-    <div className="flex items-center gap-4 flex-1 min-w-[200px]">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center">
-          <span className="text-white">SC</span>
+ <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+
+        {/* ==== MOBILE MENU BUTTON ==== */}
+        <button
+          className="md:hidden p-2"
+          onClick={onMenuClick}
+        >
+          <Menu className="w-6 h-6 text-gray-700 dark:text-white" />
+        </button>
+
+        {/* LEFT - Logo */}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center">
+            <span className="text-white">SC</span>
+          </div>
+          <div>
+            <h1 className="text-gray-900 dark:text-white">ScrapCo</h1>
+            <p className="text-gray-500 dark:text-gray-400">
+              Godown Management
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-gray-900 dark:text-white">ScrapCo</h1>
-          <p className="text-gray-500 dark:text-gray-400">
-            Godown Management
-          </p>
-        </div>
-      </div>
-    </div>
+
 
     {/* SEARCH BAR - Full width on mobile */}
     <div className="w-full md:flex-1 md:max-w-md">
