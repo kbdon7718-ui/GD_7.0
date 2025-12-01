@@ -20,11 +20,10 @@ const menuItems = [
   { id: "rokadi", label: "Rokadi Update", icon: Wallet },
   { id: "bank", label: "Bank Account", icon: Building2 },
   { id: "labour", label: "Labour", icon: Users },
-
   { id: "feriwala", label: "Feriwala", icon: Recycle },
 
-  // ✅ FIXED IDs: match App.js routing
-  { id: "truck-driver", label: "Truck Driver", icon: Truck },  
+  // Match App.js routing
+  { id: "truck-driver", label: "Truck Driver", icon: Truck },
   { id: "maal-in", label: "Maal In", icon: Package },
 
   { id: "kabadiwala", label: "Kabadiwala", icon: Recycle },
@@ -34,16 +33,28 @@ const menuItems = [
   { id: "mill", label: "Party / Mill", icon: Factory },
 ];
 
-export function Sidebar({ activeSection, setActiveSection }) {
+export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
   return (
-    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full">
-      <nav className="p-4 space-y-1">
+    <aside className="relative w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full">
+
+      {/* ✔ Mobile close button */}
+      <button
+        className="md:hidden absolute top-3 right-3 p-2 rounded bg-gray-200 dark:bg-gray-700"
+        onClick={closeSidebar}
+      >
+        ✕
+      </button>
+
+      <nav className="p-4 space-y-1 mt-8 md:mt-0">
         {menuItems.map((item) => {
           const Icon = item.icon;
           return (
             <button
               key={item.id}
-              onClick={() => setActiveSection(item.id)}
+              onClick={() => {
+                setActiveSection(item.id);
+                closeSidebar?.(); // auto-close only on mobile
+              }}
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
                 activeSection === item.id
