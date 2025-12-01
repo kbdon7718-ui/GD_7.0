@@ -112,11 +112,12 @@ function AppContent() {
               )}
 
               {/* DRAWER SIDEBAR */}
-              <div
-                className={`fixed md:static top-0 left-0 z-40 h-full bg-white dark:bg-gray-800 shadow-md md:shadow-none
-                transition-transform duration-300
-                ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
-              >
+             <div
+  className={`fixed md:static top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow-lg
+  transition-transform duration-300
+  ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+>
+
                 <Sidebar
                   activeSection={activeSection}
                   setActiveSection={(s) => {
