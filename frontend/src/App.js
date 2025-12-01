@@ -124,6 +124,7 @@ function AppContent() {
                     setActiveSection(s);
                     setSidebarOpen(false); // close drawer on mobile
                   }}
+                     closeSidebar={() => setSidebarOpen(false)} 
                 />
               </div>
             </>
