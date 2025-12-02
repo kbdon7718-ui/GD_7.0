@@ -25,110 +25,79 @@ import { Toaster } from "./components/ui/sonner";
 import { AuthProvider, useAuth } from "./utils/authContext";
 import { DataProvider } from "./utils/dataContext";
 
+// App.js
 function AppContent() {
   const { user, isAuthenticated } = useAuth();
   const [activeSection, setActiveSection] = useState("dashboard");
   const [darkMode, setDarkMode] = useState(false);
 
-  // sidebar drawer state (hidden by default)
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    if (user?.role === "manager") {
-      setActiveSection("manager-dashboard");
-    } else if (user?.role === "owner") {
-      setActiveSection("dashboard");
-    }
+    if (user?.role === "manager") setActiveSection("manager-dashboard");
+    else setActiveSection("dashboard");
   }, [user]);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark");
-  };
-
-  if (!isAuthenticated) {
-    return <Login />;
-  }
-
-  const renderActiveSection = () => {
-    if (user?.role === "manager") {
-      return <ManagerDashboard />;
-    }
-
-    switch (activeSection) {
-      case "dashboard":
-        return <DashboardOverview />;
-      case "daily-book":
-        return <DailyBook />;
-      case "maal-in":
-        return <MaalIn />;
-      case "truck-driver":
-        return <TruckDriver />;
-      case "rokadi":
-        return <RokadiUpdate />;
-      case "bank":
-        return <BankAccount />;
-      case "labour":
-        return <LabourSection />;
-      case "feriwala":
-        return <FeriwalaSection />;
-      case "kabadiwala":
-        return <KabadiwalaSection />;
-      case "partnership":
-        return <PartnershipAccount />;
-      case "rates-update":
-        return <RatesUpdate />;
-      case "business-reports":
-        return <BusinessReports />;
-      case "mill":
-        return <MillSection />;
-      default:
-        return <DashboardOverview />;
-    }
-  };
+  if (!isAuthenticated) return <Login />;
 
   return (
-    // prevent horizontal scroll
     <div className={`min-h-screen ${darkMode ? "dark" : ""} overflow-x-hidden`}>
       <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
-        {/* Header (z-50) */}
-        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} onMenuClick={() => setSidebarOpen(true)} />
+
+        {/* HEADER */}
+        <Header
+          darkMode={darkMode}
+          toggleDarkMode={() => setDarkMode(!darkMode)}
+          onMenuClick={() => setSidebarOpen(true)}
+        />
 
         <div className="flex flex-1 overflow-hidden relative">
-          {/* OWNER: Drawer Sidebar only opens when sidebarOpen=true */}
-          {user?.role === "owner" && (
-            <>
-              {/* Backdrop */}
-              {sidebarOpen && (
-                <div
-                  className="fixed inset-0 bg-black/40 z-30"
-                  onClick={() => setSidebarOpen(false)}
-                />
-              )}
 
-              {/* Drawer - translate toggled here */}
+          {/* SIDEBAR DRAWER */}
+          <>
+            {/* BACKDROP */}
+            {sidebarOpen && (
               <div
-                className={`fixed left-0 z-40 transition-transform duration-300
-                  ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
-                // width + top + height are controlled inside Sidebar component
-                style={{ top: 0 /* keep top at 0 so Sidebar uses its own top-16 */, left: 0 }}
-              >
-                {/* Sidebar component itself uses top-16, so it will show just under header */}
-                <Sidebar
-                  activeSection={activeSection}
-                  setActiveSection={(s) => {
-                    setActiveSection(s);
-                    setSidebarOpen(false); // close when selecting
-                  }}
-                  closeSidebar={() => setSidebarOpen(false)}
-                />
-              </div>
-            </>
-          )}
+                className="fixed inset-0 bg-black/40 z-40 md:hidden"
+                onClick={() => setSidebarOpen(false)}
+              />
+            )}
+
+            {/* DRAWER */}
+            <div
+              className={`fixed top-0 left-0 z-50 h-full w-64
+                bg-white dark:bg-gray-800 border-r border-gray-700
+                transition-transform duration-300
+                ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+                md:static md:translate-x-0`}
+            >
+              <Sidebar
+                activeSection={activeSection}
+                setActiveSection={(s) => {
+                  setActiveSection(s);
+                  setSidebarOpen(false);
+                }}
+                closeSidebar={() => setSidebarOpen(false)}
+              />
+            </div>
+          </>
 
           {/* MAIN CONTENT */}
           <main className="flex-1 overflow-y-auto p-4 sm:p-6">
-            {renderActiveSection()}
+            {/* Your routing logic */}
+            {activeSection === "dashboard" && <DashboardOverview />}
+            {activeSection === "daily-book" && <DailyDataBook />}
+            {activeSection === "truck-driver" && <TruckDriver />}
+            {activeSection === "maal-in" && <MaalIn />}
+            {activeSection === "rokadi" && <RokadiUpdate />}
+            {activeSection === "bank" && <BankAccount />}
+            {activeSection === "labour" && <LabourSection />}
+            {activeSection === "feriwala" && <FeriwalaSection />}
+            {activeSection === "kabadiwala" && <KabadiwalaSection />}
+            {activeSection === "partnership" && <PartnershipAccount />}
+            {activeSection === "rates-update" && <RatesUpdate />}
+            {activeSection === "business-reports" && <BusinessReports />}
+            {activeSection === "mill" && <MillSection />}
           </main>
         </div>
       </div>
