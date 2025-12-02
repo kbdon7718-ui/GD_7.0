@@ -2,7 +2,6 @@ import { Bell, Search, Moon, Sun, LogOut, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,54 +15,44 @@ import { useAuth } from "../utils/authContext";
 export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
   const { user, logout } = useAuth();
 
-  const getInitials = (name) => {
-    return (name || "")
+  const getInitials = (name) =>
+    (name || "")
       .split(" ")
       .map((n) => n[0])
       .join("")
       .toUpperCase();
-  };
 
   const getRoleBadge = (role) => (role === "owner" ? "Owner" : "Manager");
 
   return (
-    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 z-20 relative">
       <div className="flex items-center justify-between gap-4 flex-wrap">
 
-        {/* ==== MOBILE MENU BUTTON ==== */}
-        <button
-          className="md:hidden p-2"
-          onClick={onMenuClick}
-        >
+        {/* Hamburger button */}
+        <button className="md:hidden p-2" onClick={onMenuClick}>
           <Menu className="w-6 h-6 text-gray-700 dark:text-white" />
         </button>
 
-        {/* LEFT - Logo */}
+        {/* Logo */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center">
             <span className="text-white">SC</span>
           </div>
           <div>
             <h1 className="text-gray-900 dark:text-white">ScrapCo</h1>
-            <p className="text-gray-500 dark:text-gray-400">
-              Godown Management
-            </p>
+            <p className="text-gray-500 dark:text-gray-400">Godown Management</p>
           </div>
         </div>
 
-        {/* SEARCH BAR */}
+        {/* Search */}
         <div className="w-full md:flex-1 md:max-w-md">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              type="text"
-              placeholder="Search records..."
-              className="pl-10 w-full"
-            />
+            <Input type="text" placeholder="Search records..." className="pl-10 w-full" />
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
+        {/* Right Area */}
         <div className="flex items-center gap-3 flex-wrap">
 
           <input
@@ -81,21 +70,18 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
             <Bell className="w-5 h-5" />
           </Button>
 
-          {/* USER DROPDOWN */}
+          {/* User dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="gap-2">
                 <Avatar className="w-8 h-8">
                   <AvatarImage src="" />
-                  <AvatarFallback>
-                    {user ? getInitials(user.name) : "U"}
-                  </AvatarFallback>
+                  <AvatarFallback>{user ? getInitials(user.name) : "U"}</AvatarFallback>
                 </Avatar>
-                <div className="text-left hidden sm:block">
+
+                <div className="hidden sm:block text-left">
                   <div className="text-sm">{user?.name}</div>
-                  <div className="text-xs text-gray-500">
-                    {user && getRoleBadge(user.role)}
-                  </div>
+                  <div className="text-xs text-gray-500">{getRoleBadge(user?.role)}</div>
                 </div>
               </Button>
             </DropdownMenuTrigger>
@@ -103,9 +89,11 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
+
               <DropdownMenuItem>
                 <span className="text-sm text-gray-500">{user?.email}</span>
               </DropdownMenuItem>
+
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout} className="text-red-600">
                 <LogOut className="mr-2 h-4 w-4" />
@@ -113,8 +101,8 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
 
+        </div>
       </div>
     </header>
   );
