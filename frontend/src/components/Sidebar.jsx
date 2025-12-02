@@ -1,4 +1,4 @@
-]// components/Sidebar.jsx
+// components/Sidebar.jsx
 import {
   LayoutDashboard,
   BookOpen,
