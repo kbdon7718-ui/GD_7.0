@@ -31,12 +31,17 @@ const menuItems = [
   { id: "mill", label: "Party / Mill", icon: Factory }
 ];
 
-export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
+export function Sidebar({ isOpen, activeSection, setActiveSection, closeSidebar }) {
   return (
     <aside
-      className="fixed left-0 top-16 z-40 w-64 h-[calc(100vh-4rem)]
-                 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700
-                 shadow-lg transform transition-transform duration-300"
+      className={cn(
+        "fixed md:static left-0 top-0 z-40 w-64 h-full",
+        "bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700",
+        "shadow-lg transform transition-transform duration-300",
+
+        // mobile: slide in/out
+        isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      )}
     >
       {/* Mobile close button */}
       <div className="md:hidden flex justify-end p-2">
@@ -74,3 +79,4 @@ export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
     </aside>
   );
 }
+
