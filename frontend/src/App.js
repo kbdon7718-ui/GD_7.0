@@ -80,7 +80,21 @@ function AppContent() {
 
       <div className="flex">
 
-        
+        {/* Mobile Sidebar (Drawer) */}
+        <div
+          className={`fixed md:hidden top-16 left-0 z-40 transform transition-transform duration-300
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          <Sidebar
+            isOpen={sidebarOpen}
+            closeSidebar={() => setSidebarOpen(false)}
+            activeSection={activeSection}
+            setActiveSection={(s) => {
+              setActiveSection(s);
+              setSidebarOpen(false);
+            }}
+          />
+        </div>
 
         {/* Desktop Sidebar */}
         <div className="hidden md:block pt-16">
