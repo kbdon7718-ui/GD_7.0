@@ -10,7 +10,7 @@ import {
   BarChart3,
   TrendingUp,
   Truck,
-  Package
+  Package,
 } from "lucide-react";
 import { cn } from "./ui/utils";
 
@@ -21,11 +21,8 @@ const menuItems = [
   { id: "bank", label: "Bank Account", icon: Building2 },
   { id: "labour", label: "Labour", icon: Users },
   { id: "feriwala", label: "Feriwala", icon: Recycle },
-
-  // Match App.js routing
   { id: "truck-driver", label: "Truck Driver", icon: Truck },
   { id: "maal-in", label: "Maal In", icon: Package },
-
   { id: "kabadiwala", label: "Kabadiwala", icon: Recycle },
   { id: "partnership", label: "Partnership", icon: Handshake },
   { id: "rates-update", label: "Rates Update", icon: TrendingUp },
@@ -37,23 +34,24 @@ export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
   return (
     <aside className="relative w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full">
 
-      {/* ✔ Mobile close button */}
+      {/* Mobile close button */}
       <button
-        className="md:hidden absolute top-3 right-3 p-2 rounded bg-gray-200 dark:bg-gray-700"
+        className="md:hidden absolute top-3 right-3 p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
         onClick={closeSidebar}
       >
         ✕
       </button>
 
-      <nav className="p-4 space-y-1 mt-8 md:mt-0">
+      <nav className="p-4 space-y-1 mt-10 md:mt-0">
         {menuItems.map((item) => {
           const Icon = item.icon;
+
           return (
             <button
               key={item.id}
               onClick={() => {
                 setActiveSection(item.id);
-                closeSidebar?.(); // auto-close only on mobile
+                closeSidebar(); // auto close mobile
               }}
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
@@ -71,3 +69,4 @@ export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
     </aside>
   );
 }
+
