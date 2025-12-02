@@ -59,7 +59,7 @@ function AppContent() {
       case "dashboard":
         return <DashboardOverview />;
       case "daily-book":
-        return <DailyDataBook />;
+        return <DailyBook />;
       case "maal-in":
         return <MaalIn />;
       case "truck-driver":
