@@ -44,34 +44,20 @@ function AppContent() {
     if (user.role === "manager") return <ManagerDashboard />;
 
     switch (activeSection) {
-      case "dashboard":
-        return <DashboardOverview />;
-      case "daily-book":
-        return <DailyDataBook />;
-      case "maal-in":
-        return <MaalIn />;
-      case "truck-driver":
-        return <TruckDriver />;
-      case "rokadi":
-        return <RokadiUpdate />;
-      case "bank":
-        return <BankAccount />;
-      case "labour":
-        return <LabourSection />;
-      case "feriwala":
-        return <FeriwalaSection />;
-      case "kabadiwala":
-        return <KabadiwalaSection />;
-      case "partnership":
-        return <PartnershipAccount />;
-      case "rates-update":
-        return <RatesUpdate />;
-      case "business-reports":
-        return <BusinessReports />;
-      case "mill":
-        return <MillSection />;
-      default:
-        return <DashboardOverview />;
+      case "dashboard": return <DashboardOverview />;
+      case "daily-book": return <DailyDataBook />;
+      case "maal-in": return <MaalIn />;
+      case "truck-driver": return <TruckDriver />;
+      case "rokadi": return <RokadiUpdate />;
+      case "bank": return <BankAccount />;
+      case "labour": return <LabourSection />;
+      case "feriwala": return <FeriwalaSection />;
+      case "kabadiwala": return <KabadiwalaSection />;
+      case "partnership": return <PartnershipAccount />;
+      case "rates-update": return <RatesUpdate />;
+      case "business-reports": return <BusinessReports />;
+      case "mill": return <MillSection />;
+      default: return <DashboardOverview />;
     }
   };
 
@@ -87,16 +73,16 @@ function AppContent() {
 
       {/* BACKDROP (Mobile only) */}
       <div
-        className={`fixed inset-0 bg-black/40 z-30 md:hidden transition-all duration-300
+        className={`fixed inset-0 bg-black/40 z-30 md:hidden transition-all duration-300 
         ${sidebarOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
         onClick={() => setSidebarOpen(false)}
       ></div>
 
-      {/* SIDEBAR */}
       <div className="flex">
-        {/* Mobile drawer */}
+
+        {/* Mobile Sidebar (Drawer) */}
         <div
-          className={`fixed md:hidden top-0 left-0 z-40 transform transition-transform duration-300
+          className={`fixed md:hidden top-16 left-0 z-40 transform transition-transform duration-300
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
           <Sidebar
@@ -110,8 +96,8 @@ function AppContent() {
           />
         </div>
 
-        {/* Desktop static sidebar */}
-        <div className="hidden md:block">
+        {/* Desktop Sidebar */}
+        <div className="hidden md:block pt-16">
           <Sidebar
             isOpen={true}
             activeSection={activeSection}
@@ -120,7 +106,7 @@ function AppContent() {
         </div>
 
         {/* MAIN CONTENT */}
-        <main className="content flex-1 p-6 overflow-y-auto mt-20">
+        <main className="content flex-1 p-6 overflow-y-auto">
           {renderSection()}
         </main>
       </div>
