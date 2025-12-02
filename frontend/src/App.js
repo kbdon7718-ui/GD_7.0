@@ -1,75 +1,65 @@
-import {
-  LayoutDashboard,
-  BookOpen,
-  Wallet,
-  Building2,
-  Users,
-  Recycle,
-  Handshake,
-  Factory,
-  BarChart3,
-  TrendingUp,
-  Truck,
-  Package
-} from "lucide-react";
-import { cn } from "./ui/utils";
+function AppContent() {
+  const { user, isAuthenticated } = useAuth();
+  const [activeSection, setActiveSection] = useState("dashboard");
+  const [darkMode, setDarkMode] = useState(false);
 
-const menuItems = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "daily-book", label: "Daily Data Book", icon: BookOpen },
-  { id: "rokadi", label: "Rokadi Update", icon: Wallet },
-  { id: "bank", label: "Bank Account", icon: Building2 },
-  { id: "labour", label: "Labour", icon: Users },
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  { id: "feriwala", label: "Feriwala", icon: Recycle },
+  useEffect(() => {
+    if (user?.role === "manager") setActiveSection("manager-dashboard");
+    else setActiveSection("dashboard");
+  }, [user]);
 
-  // Must match App.js routing
-  { id: "truck-driver", label: "Truck Driver", icon: Truck },
-  { id: "maal-in", label: "Maal In", icon: Package },
+  if (!isAuthenticated) return <Login />;
 
-  { id: "kabadiwala", label: "Kabadiwala", icon: Recycle },
-  { id: "partnership", label: "Partnership", icon: Handshake },
-  { id: "rates-update", label: "Rates Update", icon: TrendingUp },
-  { id: "business-reports", label: "Business Reports", icon: BarChart3 },
-  { id: "mill", label: "Party / Mill", icon: Factory }
-];
-
-export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
   return (
-    <aside className="relative w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full">
+    <div className={`${darkMode ? "dark" : ""} min-h-screen`}>
+      <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
 
-      {/* ===== MOBILE CLOSE BUTTON ===== */}
-      <button
-        className="md:hidden absolute top-3 right-3 p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
-        onClick={closeSidebar}
-      >
-        ✕
-      </button>
+        <Header
+          darkMode={darkMode}
+          toggleDarkMode={() => {
+            setDarkMode(!darkMode);
+            document.documentElement.classList.toggle("dark");
+          }}
+          onMenuClick={() => setSidebarOpen(true)}
+        />
 
-      {/* ===== MENU ITEMS ===== */}
-      <nav className="p-4 space-y-1 mt-10 md:mt-0">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.id}
-              onClick={() => {
-                setActiveSection(item.id);
-                closeSidebar(); // Auto close on mobile
-              }}
-              className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left",
-                activeSection === item.id
-                  ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+        <div className="flex flex-1 overflow-hidden">
+
+          {user?.role === "owner" && (
+            <>
+              {/* BACKDROP */}
+              {sidebarOpen && (
+                <div
+                  className="fixed inset-0 bg-black/40 md:hidden z-30"
+                  onClick={() => setSidebarOpen(false)}
+                />
               )}
-            >
-              <Icon className="w-5 h-5" />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
-      </nav>
-    </aside>
+
+              {/* DRAWER SIDEBAR */}
+              <div
+                className={`fixed md:static top-0 left-0 z-40 h-full w-64 shadow-lg
+                bg-white dark:bg-gray-800 transition-transform duration-300
+                ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+              >
+                <Sidebar
+                  activeSection={activeSection}
+                  setActiveSection={setActiveSection}
+                  closeSidebar={() => setSidebarOpen(false)}
+                />
+              </div>
+            </>
+          )}
+
+          {/* MAIN CONTENT */}
+          <main className="flex-1 overflow-y-auto p-4 sm:p-6 z-10">
+            {renderSection(activeSection, user)}
+          </main>
+        </div>
+      </div>
+
+      <Toaster />
+    </div>
   );
 }
