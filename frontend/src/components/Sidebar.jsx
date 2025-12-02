@@ -1,3 +1,4 @@
+// components/Sidebar.jsx
 import {
   LayoutDashboard,
   BookOpen,
@@ -10,7 +11,7 @@ import {
   BarChart3,
   TrendingUp,
   Truck,
-  Package,
+  Package
 } from "lucide-react";
 import { cn } from "./ui/utils";
 
@@ -32,29 +33,35 @@ const menuItems = [
 
 export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
   return (
-    <aside className="relative w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full">
+    // fixed drawer that sits BELOW the header (top-16) and does not cover it.
+    <aside
+      className="fixed left-0 top-16 z-40 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700
+                 h-[calc(100vh-4rem)] shadow-lg transform transition-transform duration-300"
+      // Note: translate-x classes will be toggled from parent container via className interpolation
+    >
+      {/* mobile close button */}
+      <div className="md:hidden flex justify-end p-2">
+        <button
+          className="p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
+          onClick={closeSidebar}
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+      </div>
 
-      {/* Mobile close button */}
-      <button
-        className="md:hidden absolute top-3 right-3 p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
-        onClick={closeSidebar}
-      >
-        ✕
-      </button>
-
-      <nav className="p-4 space-y-1 mt-10 md:mt-0">
+      <nav className="p-4 space-y-1 mt-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
-
           return (
             <button
               key={item.id}
               onClick={() => {
                 setActiveSection(item.id);
-                closeSidebar(); // auto close mobile
+                closeSidebar?.(); // close drawer on mobile or when provided
               }}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
+                "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left",
                 activeSection === item.id
                   ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
                   : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -69,4 +76,3 @@ export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
     </aside>
   );
 }
-
