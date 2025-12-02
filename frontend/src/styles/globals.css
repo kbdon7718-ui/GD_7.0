@@ -187,3 +187,20 @@
 html {
   font-size: var(--font-size);
 }
+
+
+/* SIDEBAR LAYOUT FIXES */
+body {
+  overflow-x: hidden;
+}
+
+.content {
+  transition: margin-left 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .content {
+    margin-left: 16rem; /* w-64 sidebar width */
+  }
+}
+
