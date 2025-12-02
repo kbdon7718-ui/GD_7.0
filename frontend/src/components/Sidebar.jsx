@@ -1,4 +1,4 @@
-// components/Sidebar.jsx
+]// components/Sidebar.jsx
 import {
   LayoutDashboard,
   BookOpen,
@@ -17,7 +17,7 @@ import { cn } from "./ui/utils";
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "daily-book", label: "Daily  Book", icon: BookOpen },
+  { id: "daily-book", label: "Daily Data Book", icon: BookOpen },
   { id: "rokadi", label: "Rokadi Update", icon: Wallet },
   { id: "bank", label: "Bank Account", icon: Building2 },
   { id: "labour", label: "Labour", icon: Users },
@@ -28,18 +28,21 @@ const menuItems = [
   { id: "partnership", label: "Partnership", icon: Handshake },
   { id: "rates-update", label: "Rates Update", icon: TrendingUp },
   { id: "business-reports", label: "Business Reports", icon: BarChart3 },
-  { id: "mill", label: "Party / Mill", icon: Factory },
+  { id: "mill", label: "Party / Mill", icon: Factory }
 ];
 
 export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
   return (
-    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full">
-
+    <aside
+      className="fixed left-0 top-16 z-40 w-64 h-[calc(100vh-4rem)]
+                 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700
+                 shadow-lg transform transition-transform duration-300"
+    >
       {/* Mobile close button */}
       <div className="md:hidden flex justify-end p-2">
         <button
-          className="p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
           onClick={closeSidebar}
+          className="p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
         >
           ✕
         </button>
@@ -56,7 +59,7 @@ export function Sidebar({ activeSection, setActiveSection, closeSidebar }) {
                 closeSidebar();
               }}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors",
+                "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left",
                 activeSection === item.id
                   ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
                   : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
