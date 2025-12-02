@@ -17,7 +17,7 @@ import { cn } from "./ui/utils";
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "daily-book", label: "Daily Data Book", icon: BookOpen },
+  { id: "daily-book", label: "Daily  Book", icon: BookOpen },
   { id: "rokadi", label: "Rokadi Update", icon: Wallet },
   { id: "bank", label: "Bank Account", icon: Building2 },
   { id: "labour", label: "Labour", icon: Users },
