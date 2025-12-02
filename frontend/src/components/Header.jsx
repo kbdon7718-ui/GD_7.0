@@ -26,10 +26,10 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
   const getRoleBadge = (role) => (role === "owner" ? "Owner" : "Manager");
 
   return (
-    // header has high z-index so it stays above the drawer
-    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 relative z-50">
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 sticky top-0 z-50">
       <div className="flex items-center justify-between gap-4 flex-wrap">
-        {/* Hamburger - visible on all sizes so user can open drawer */}
+
+        {/* === Hamburger (mobile + desktop) === */}
         <button
           className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
           onClick={onMenuClick}
@@ -38,30 +38,36 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
           <MenuIcon className="w-6 h-6 text-gray-700 dark:text-white" />
         </button>
 
-        {/* Logo */}
+        {/* === Logo === */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center">
             <span className="text-white">SC</span>
           </div>
           <div>
-            <h1 className="text-gray-900 dark:text-white">ScrapCo</h1>
-            <p className="text-gray-500 dark:text-gray-400">Godown Management</p>
+            <h1 className="text-gray-900 dark:text-white font-semibold">ScrapCo</h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">Godown Management</p>
           </div>
         </div>
 
-        {/* Search bar (can wrap on small screens) */}
+        {/* === Search Bar === */}
         <div className="w-full md:flex-1 md:max-w-md">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input type="text" placeholder="Search records..." className="pl-10 w-full" />
+            <Input
+              type="text"
+              placeholder="Search records..."
+              className="pl-10 w-full"
+            />
           </div>
         </div>
 
-        {/* Right side controls */}
+        {/* === Right Controls === */}
         <div className="flex items-center gap-3 flex-wrap">
+
           <input
             type="date"
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
+            bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             defaultValue={new Date().toISOString().split("T")[0]}
           />
 
@@ -73,6 +79,7 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
             <Bell className="w-5 h-5" />
           </Button>
 
+          {/* User Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="gap-2">
@@ -82,7 +89,9 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
                 </Avatar>
                 <div className="text-left hidden sm:block">
                   <div className="text-sm">{user?.name}</div>
-                  <div className="text-xs text-gray-500">{user && getRoleBadge(user.role)}</div>
+                  <div className="text-xs text-gray-500">
+                    {user && getRoleBadge(user.role)}
+                  </div>
                 </div>
               </Button>
             </DropdownMenuTrigger>
@@ -100,6 +109,7 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
         </div>
       </div>
     </header>
