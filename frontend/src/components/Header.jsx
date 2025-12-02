@@ -13,7 +13,7 @@ import {
 } from "./ui/dropdown-menu";
 import { useAuth } from "../utils/authContext";
 
-export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
+export function Header({ darkMode, toggleDarkMode, toggleSidebar }) {
   const { user, logout } = useAuth();
 
   return (
@@ -21,7 +21,7 @@ export function Header({ darkMode, toggleDarkMode, onMenuClick }) {
       <div className="flex items-center justify-between gap-4 flex-wrap">
 
         {/* Hamburger */}
-        <button onClick={onMenuClick} className="p-2 md:hidden">
+        <button onClick={toggleSidebar} className="p-2 md:hidden">
           <MenuIcon className="w-6 h-6 text-gray-700 dark:text-white" />
         </button>
 
