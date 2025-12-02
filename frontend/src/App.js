@@ -1,5 +1,5 @@
 // App.js
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
 
@@ -26,9 +26,12 @@ import { DataProvider } from "./utils/dataContext";
 function AppContent() {
   const { user, isAuthenticated } = useAuth();
   const [activeSection, setActiveSection] = useState("dashboard");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
 
+  // Sidebar state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Dark mode
+  const [darkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => {
     setDarkMode((prev) => !prev);
     document.documentElement.classList.toggle("dark");
@@ -36,38 +39,91 @@ function AppContent() {
 
   if (!isAuthenticated) return <Login />;
 
+  // Section Renderer
+  const renderSection = () => {
+    if (user.role === "manager") return <ManagerDashboard />;
+
+    switch (activeSection) {
+      case "dashboard":
+        return <DashboardOverview />;
+      case "daily-book":
+        return <DailyDataBook />;
+      case "maal-in":
+        return <MaalIn />;
+      case "truck-driver":
+        return <TruckDriver />;
+      case "rokadi":
+        return <RokadiUpdate />;
+      case "bank":
+        return <BankAccount />;
+      case "labour":
+        return <LabourSection />;
+      case "feriwala":
+        return <FeriwalaSection />;
+      case "kabadiwala":
+        return <KabadiwalaSection />;
+      case "partnership":
+        return <PartnershipAccount />;
+      case "rates-update":
+        return <RatesUpdate />;
+      case "business-reports":
+        return <BusinessReports />;
+      case "mill":
+        return <MillSection />;
+      default:
+        return <DashboardOverview />;
+    }
+  };
+
   return (
     <div className={`min-h-screen ${darkMode ? "dark" : ""} overflow-x-hidden`}>
+
+      {/* HEADER */}
       <Header
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
-        onMenuClick={() => setSidebarOpen(true)}
+        toggleSidebar={() => setSidebarOpen(true)}
       />
 
-      {/* BACKDROP */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        ></div>
-      )}
-
-      {/* SIDEBAR DRAWER */}
+      {/* BACKDROP (Mobile only) */}
       <div
-        className={`fixed left-0 top-0 z-40 transform transition-transform duration-300
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
-      >
-        <Sidebar
-          activeSection={activeSection}
-          setActiveSection={(s) => {
-            setActiveSection(s);
-            setSidebarOpen(false);
-          }}
-          closeSidebar={() => setSidebarOpen(false)}
-        />
-      </div>
+        className={`fixed inset-0 bg-black/40 z-30 md:hidden transition-all duration-300
+        ${sidebarOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+        onClick={() => setSidebarOpen(false)}
+      ></div>
 
-      <main className="pt-20 p-4 overflow-y-auto">{/* content */}</main>
+      {/* SIDEBAR */}
+      <div className="flex">
+        {/* Mobile drawer */}
+        <div
+          className={`fixed md:hidden top-0 left-0 z-40 transform transition-transform duration-300
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          <Sidebar
+            isOpen={sidebarOpen}
+            closeSidebar={() => setSidebarOpen(false)}
+            activeSection={activeSection}
+            setActiveSection={(s) => {
+              setActiveSection(s);
+              setSidebarOpen(false);
+            }}
+          />
+        </div>
+
+        {/* Desktop static sidebar */}
+        <div className="hidden md:block">
+          <Sidebar
+            isOpen={true}
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+          />
+        </div>
+
+        {/* MAIN CONTENT */}
+        <main className="content flex-1 p-6 overflow-y-auto mt-20">
+          {renderSection()}
+        </main>
+      </div>
 
       <Toaster />
     </div>
